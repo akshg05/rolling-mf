@@ -1,24 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { SearchComponent, SearchItemList } from './components/testComponent';
+
+export const SearchContext = React.createContext({
+  searchStr: '',
+  setSearchStr: (_value: string) => { }
+})
 
 function App() {
+
+  const [searchStr, setSearchStr] = useState('')
+  const value = { searchStr, setSearchStr }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchContext.Provider value={value}>
+        <header className="App-header">
+          <div className='auto-margin'>
+            <SearchComponent />
+            <SearchItemList />
+          </div>
+
+        </header>
+
+      </SearchContext.Provider>
+
     </div>
   );
 }
