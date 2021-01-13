@@ -1,5 +1,6 @@
-import { Convert, Resource, SearchResponse } from "../models/ApiModels"
+import { Convert, SearchResponse } from "../models/SearchResponse"
 import Axios, { AxiosResponse } from "axios"
+import { MFResponse } from "../models/SchemeDataResponse"
 
 const baseUrl = 'https://api.mfapi.in'
 const axios = Axios.create({baseURL: baseUrl})
@@ -18,4 +19,13 @@ export default class API{
 
         return response
     }
+
+    async fetchSchemeData(schemeCode:string){
+
+        let response = await axios.get<MFResponse>(`/mf/${schemeCode}`)
+        return response
+
+    }
+
+    
 }

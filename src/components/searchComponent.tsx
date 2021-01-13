@@ -2,7 +2,7 @@ import { CSSProperties, useContext, useEffect, useRef, useState } from "react";
 
 import API from '../api/mfApi'
 import { SearchContext } from "../App";
-import { SearchResponse } from "../models/ApiModels";
+import { SearchResponse } from "../models/SearchResponse";
 import { useOutsideAlerter } from "../utils/custom_hooks";
 
 const api = new API()

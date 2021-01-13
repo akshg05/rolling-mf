@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { SearchComponent, SearchItemList } from './components/testComponent';
+import { SearchComponent, SearchItemList } from './components/searchComponent';
 
 export const SearchContext = React.createContext({
   searchStr: '',
