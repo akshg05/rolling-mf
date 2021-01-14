@@ -6,26 +6,38 @@ import { SearchResponse } from './models/SearchResponse';
 
 export const SearchContext = React.createContext({
   searchStr: '',
-  selectedScheme: {} as SearchResponse,
   setSearchStr: (_value: string) => { }
+})
+
+export const SelectedSchemeContext = React.createContext({
+  selectedScheme: {} as SearchResponse,
+  setSelectedScheme: (_value: SearchResponse) => { }
 })
 
 function App() {
 
   const [searchStr, setSearchStr] = useState('')
-  const value = { searchStr, selectedScheme : {} as SearchResponse, setSearchStr }
+  const [selectedScheme, setSelectedScheme] = useState({} as SearchResponse)
+  const value = { searchStr, setSearchStr }
+  const schemeValue = { selectedScheme, setSelectedScheme }
   return (
     <div className="App">
       <SearchContext.Provider value={value}>
-        <header className="App-header">
-          <div className='auto-margin'>
-            <SearchComponent />
-            <SearchItemList />
-          </div>
+        <SelectedSchemeContext.Provider value={schemeValue}>
+          <header className="App-header">
+            <div className='auto-margin'>
+              <SearchComponent />
+              <SearchItemList />
+            </div>
 
-        </header>
-
+          </header>
+        </SelectedSchemeContext.Provider>
       </SearchContext.Provider>
+      <SelectedSchemeContext.Provider value={schemeValue}>
+        <SelectedSchemeContext.Consumer>
+          {schemeValue => (<div>{schemeValue.selectedScheme.schemeName}</div>)}
+        </SelectedSchemeContext.Consumer>
+      </SelectedSchemeContext.Provider>
 
     </div>
   );

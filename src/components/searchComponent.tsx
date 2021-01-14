@@ -1,7 +1,7 @@
 import { CSSProperties, useContext, useEffect, useRef, useState } from "react";
 
 import API from '../api/mfApi'
-import { SearchContext } from "../App";
+import { SearchContext, SelectedSchemeContext } from "../App";
 import { SearchResponse } from "../models/SearchResponse";
 import { useOutsideAlerter } from "../utils/custom_hooks";
 
@@ -19,6 +19,7 @@ function SearchItem(props: SearchResponse) {
     }
 
     const [hovered, setHovered] = useState(false)
+    const {selectedScheme, setSelectedScheme} = useContext(SelectedSchemeContext)
 
     const getBackground = () => hovered ? 'white' : 'wheat'
 
@@ -31,7 +32,10 @@ function SearchItem(props: SearchResponse) {
 
     return (
 
-        <div className='flex-box flex-column' style={itemHolderStyle} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+        <div className='flex-box flex-column'
+            style={itemHolderStyle} onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onClick={()=> setSelectedScheme(props)}>
             <div style={itemStyle}>
                 {props.schemeName}
             </div>
