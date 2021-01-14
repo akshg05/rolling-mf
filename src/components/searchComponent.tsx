@@ -8,18 +8,30 @@ import { useOutsideAlerter } from "../utils/custom_hooks";
 const api = new API()
 
 function SearchItem(props: SearchResponse) {
-    const itemStyle:CSSProperties = {
+    const itemStyle: CSSProperties = {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         fontFamily: 'sans-serif',
         fontWeight: 'bold',
         width: '290px',
-        textAlign:'start'
+        textAlign: 'start'
     }
+
+    const [hovered, setHovered] = useState(false)
+
+    const getBackground = () => hovered ? 'white' : 'wheat'
+
+    const itemHolderStyle: CSSProperties = {
+        width: 'auto',
+        padding: '5px',
+        alignItems: 'start',
+        backgroundColor: getBackground()
+    }
+
     return (
 
-        <div className='flex-box flex-column' style={{ width: 'auto', padding:'5px', alignItems: 'start' }}>
+        <div className='flex-box flex-column' style={itemHolderStyle} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
             <div style={itemStyle}>
                 {props.schemeName}
             </div>
