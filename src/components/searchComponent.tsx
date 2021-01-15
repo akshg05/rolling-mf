@@ -7,7 +7,10 @@ import { useOutsideAlerter } from "../utils/custom_hooks";
 
 const api = new API()
 
-function SearchItem(props: SearchResponse) {
+function SearchItem(props: {
+    searchResponse: SearchResponse,
+    setShowResults: any
+}) {
     const itemStyle: CSSProperties = {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
@@ -35,12 +38,12 @@ function SearchItem(props: SearchResponse) {
         <div className='flex-box flex-column'
             style={itemHolderStyle} onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            onClick={()=> setSelectedScheme(props)}>
+            onClick={()=> {setSelectedScheme(props.searchResponse); props.setShowResults(false)}}>
             <div style={itemStyle}>
-                {props.schemeName}
+                {props.searchResponse.schemeName}
             </div>
             <div>
-                Scheme Code : {props.schemeCode}
+                Scheme Code : {props.searchResponse.schemeCode}
             </div>
         </div>
     )
@@ -63,8 +66,8 @@ export function SearchItemList() {
 
 
 
-    const listItems = schemeList.map((item) => <SearchItem schemeCode={item.schemeCode}
-        schemeName={item.schemeName}
+    const listItems = schemeList.map((item) => <SearchItem searchResponse={item}
+        setShowResults = {setShowResults}
         key={item.schemeCode} />)
 
     if (listItems.length > 0 && showResults)
