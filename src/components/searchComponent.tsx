@@ -5,7 +5,7 @@ import { SearchContext, SelectedSchemeContext } from "../App";
 import { SearchResponse } from "../models/SearchResponse";
 import { useOutsideAlerter } from "../utils/custom_hooks";
 
-const api = new API()
+const api = API
 
 function SearchItem(props: {
     searchResponse: SearchResponse,
@@ -58,7 +58,7 @@ export function SearchItemList() {
 
     useEffect(() => {
         setShowResults(true)
-        api.searchScheme(searchStr).then((response) => {
+        api.searchScheme(searchStr.searchString).then((response) => {
             if (response.status == 200)
                 setSchemeList(response.data)
         })

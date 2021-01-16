@@ -6,7 +6,7 @@ const baseUrl = 'https://api.mfapi.in'
 const axios = Axios.create({baseURL: baseUrl})
 
 
-export default class API{
+class API{
 
 
     async searchScheme(searchString: string): Promise<AxiosResponse<SearchResponse[]>>{
@@ -26,6 +26,7 @@ export default class API{
         return response
 
     }
-
-    
+  
 }
+
+export default new API()

@@ -1,15 +1,15 @@
 export interface MFResponse {
-    meta:   Meta;
+    meta:   SchemeMeta;
     data:   Datum[];
     status: string;
 }
 
 export interface Datum {
     date: string;
-    nav:  string;
+    nav:  number;
 }
 
-export interface Meta {
+export interface SchemeMeta {
     fund_house:      string;
     scheme_type:     string;
     scheme_category: string;
