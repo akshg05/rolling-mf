@@ -1,10 +1,15 @@
-import React, { useMemo, useReducer, useState } from 'react';
+import React, { PropsWithChildren, ReactNode, useMemo, useReducer, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { SearchComponent, SearchItemList } from './components/searchComponent';
 import { SearchResponse } from './models/SearchResponse';
-import { SchemeOverview } from './components/schemeOverviewComponent';
+import { SchemeOverview, SchemeOverviewWrapper } from './components/schemeOverviewComponent';
 import { SearchState } from './models/StoreTypes';
+import { render } from '@testing-library/react';
+
+type LoadingProps = {
+  children: React.ReactNode
+}
 
 export const SearchContext = React.createContext({
   searchStr: {} as SearchState,
@@ -17,12 +22,28 @@ export const SelectedSchemeContext = React.createContext({
 })
 
 const searchState = {
-  searchString : ''
+  searchString: ''
 }
-function searchStringReducer(searchState: SearchState, action:string){
+function searchStringReducer(searchState: SearchState, action: string) {
   let state = {} as SearchState
   state.searchString = action
- return state
+  return state
+}
+
+const TestContext = React.createContext(0)
+
+function TestComponent() {
+  return (
+    <div>ABX</div>
+  )
+}
+
+const TestComponentWrapper = (props: LoadingProps) => {
+  return (
+    <TestContext.Provider value={1}>
+      {props.children}
+    </TestContext.Provider>
+  )
 }
 
 function App() {
@@ -30,15 +51,16 @@ function App() {
   const [searchStr, setSearchStr] = useReducer(searchStringReducer, {} as SearchState)
   const [selectedScheme, setSelectedScheme] = useState({} as SearchResponse)
   const searchStore = useMemo(
-    ()=>({searchStr, setSearchStr}),[searchStr]
+    () => ({ searchStr, setSearchStr }), [searchStr]
   )
   const selectedSchemeStore = useMemo(
-    ()=>{
+    () => {
       console.log('computed new value')
-      return {selectedScheme, setSelectedScheme}}, [selectedScheme]
+      return { selectedScheme, setSelectedScheme }
+    }, [selectedScheme]
   )
-   const value = { searchStr, setSearchStr }
-   const schemeValue = { selectedScheme, setSelectedScheme }
+  //  const value = { searchStr, setSearchStr }
+  //  const schemeValue = { selectedScheme, setSelectedScheme }
   return (
     <div className="App">
       <SearchContext.Provider value={searchStore}>
@@ -52,10 +74,12 @@ function App() {
         </SelectedSchemeContext.Provider>
       </SearchContext.Provider>
       <SelectedSchemeContext.Provider value={selectedSchemeStore}>
-        <SelectedSchemeContext.Consumer>
-          {schemeValue => (<SchemeOverview schemeItem={schemeValue.selectedScheme}/>)}
-        </SelectedSchemeContext.Consumer>
+        <SchemeOverviewWrapper />
       </SelectedSchemeContext.Provider>
+      <TestComponentWrapper>
+        <TestComponent />
+      </TestComponentWrapper>
+
 
     </div>
   );

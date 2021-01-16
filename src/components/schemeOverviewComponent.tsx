@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import mfApi from "../api/mfApi";
+import { SelectedSchemeContext } from "../App";
 import { Datum, MFResponse, SchemeMeta } from "../models/SchemeDataResponse";
 
 import { SearchResponse } from "../models/SearchResponse";
@@ -53,6 +54,7 @@ export function SchemeOverview(props: {
     }
 
     return (
+
         <div className='flex-box flex-column' style={{ alignItems: 'start' }}>
             <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{props.schemeItem.schemeName}</div>
             {schemeData ? <SchemeMetaInfo meta={schemeData.meta} /> : null}
@@ -60,4 +62,12 @@ export function SchemeOverview(props: {
         </div>
     )
 
+}
+
+export function SchemeOverviewWrapper(){
+    return(
+        <SelectedSchemeContext.Consumer>
+            {value=>(<SchemeOverview schemeItem={value.selectedScheme}/>)}
+        </SelectedSchemeContext.Consumer>
+    )
 }
