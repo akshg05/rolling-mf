@@ -1,9 +1,11 @@
 import { CSSProperties, useContext, useEffect, useRef, useState } from "react";
 
 import API from '../api/mfApi'
-import { SearchContext, SelectedSchemeContext } from "../App";
+import { SearchContext } from "../App";
 import { SearchResponse } from "../models/SearchResponse";
+import { SearchContextImproved } from "../utils/context_providers";
 import { useOutsideAlerter } from "../utils/custom_hooks";
+import { SelectedSchemeContext } from "../utils/selectedSchemeProvider";
 
 const api = API
 
@@ -52,7 +54,7 @@ function SearchItem(props: {
 export function SearchItemList() {
     const [schemeList, setSchemeList] = useState<SearchResponse[]>([])
     const [showResults, setShowResults] = useState(true)
-    const { searchStr, setSearchStr } = useContext(SearchContext)
+    const { searchStr, setSearchStr } = useContext(SearchContextImproved)
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef, setShowResults, !showResults);
 
@@ -80,7 +82,7 @@ export function SearchItemList() {
 
 export function SearchComponent() {
 
-    const { searchStr, setSearchStr } = useContext(SearchContext)
+    const { searchStr, setSearchStr } = useContext(SearchContextImproved)
 
     return (
 
@@ -89,6 +91,8 @@ export function SearchComponent() {
 
     )
 }
+
+
 
 
 

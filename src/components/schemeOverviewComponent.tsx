@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import mfApi from "../api/mfApi";
-import { SelectedSchemeContext } from "../App";
+
 import { Datum, MFResponse, SchemeMeta } from "../models/SchemeDataResponse";
 
 import { SearchResponse } from "../models/SearchResponse";
+import { SelectedSchemeContext } from "../utils/selectedSchemeProvider";
 
 const api = mfApi
 
@@ -18,15 +19,27 @@ function SchemeMetaInfo(props: { meta: SchemeMeta }) {
 
 function NavItem(props: { navData: Datum, prevNav: Datum }) {
 
-    function computeDiffPercent(){
-        return (props.navData.nav - props.prevNav.nav)/props.navData.nav*100
+    let changeP: number = 0
+    if(props.prevNav != null)
+     changeP = computeDiffPercent()
+     
+    function computeDiffPercent() {
+        return ((parseFloat(props.navData.nav) - parseFloat(props.prevNav.nav)) / parseFloat(props.navData.nav) * 100)
     }
+
+    function computeFixed(value: string) {
+        return parseFloat(value).toFixed(2)
+    }
+    function computeColor(value: number) { return value > 0 ? 'green' : 'red' }
     return (
         <div className='flex-row'>
             <div>{props.navData.date}</div>
             <div style={{ width: '20px' }}></div>
-            <div>{props.navData.nav}</div>
-            {props.prevNav? computeDiffPercent: null}
+            <div>{computeFixed(props.navData.nav)}</div>
+            <div style={{ width: '20px' }}></div>
+            {props.prevNav ? <div style={{ width: '80px', textAlign: 'right', color: computeColor(changeP) }}>
+                {changeP.toFixed(2)}%
+            </div> : null}
         </div>
     )
 }
@@ -64,10 +77,10 @@ export function SchemeOverview(props: {
 
 }
 
-export function SchemeOverviewWrapper(){
-    return(
+export function SchemeOverviewWrapper() {
+    return (
         <SelectedSchemeContext.Consumer>
-            {value=>(<SchemeOverview schemeItem={value.selectedScheme}/>)}
+            {value => (<SchemeOverview schemeItem={value.selectedScheme} />)}
         </SelectedSchemeContext.Consumer>
     )
 }

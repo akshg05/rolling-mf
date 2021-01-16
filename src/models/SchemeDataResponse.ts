@@ -6,7 +6,7 @@ export interface MFResponse {
 
 export interface Datum {
     date: string;
-    nav:  number;
+    nav:  string;
 }
 
 export interface SchemeMeta {

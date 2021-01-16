@@ -6,8 +6,10 @@ import { SearchResponse } from './models/SearchResponse';
 import { SchemeOverview, SchemeOverviewWrapper } from './components/schemeOverviewComponent';
 import { SearchState } from './models/StoreTypes';
 import { render } from '@testing-library/react';
+import { SearchContextImproved, SearchContextProvider } from './utils/context_providers';
+import SelectedSchemeProvider from './utils/selectedSchemeProvider';
 
-type LoadingProps = {
+export type LoadingProps = {
   children: React.ReactNode
 }
 
@@ -16,10 +18,10 @@ export const SearchContext = React.createContext({
   setSearchStr: (_value: string) => { }
 })
 
-export const SelectedSchemeContext = React.createContext({
-  selectedScheme: {} as SearchResponse,
-  setSelectedScheme: (_value: SearchResponse) => { }
-})
+// export const SelectedSchemeContext = React.createContext({
+//   selectedScheme: {} as SearchResponse,
+//   setSelectedScheme: (_value: SearchResponse) => { }
+// })
 
 const searchState = {
   searchString: ''
@@ -50,32 +52,34 @@ function App() {
 
   const [searchStr, setSearchStr] = useReducer(searchStringReducer, {} as SearchState)
   const [selectedScheme, setSelectedScheme] = useState({} as SearchResponse)
-  const searchStore = useMemo(
-    () => ({ searchStr, setSearchStr }), [searchStr]
-  )
-  const selectedSchemeStore = useMemo(
-    () => {
-      console.log('computed new value')
-      return { selectedScheme, setSelectedScheme }
-    }, [selectedScheme]
-  )
+  // const searchStore = useMemo(
+  //   () => ({ searchStr, setSearchStr }), [searchStr]
+  // )
+  // const selectedSchemeStore = useMemo(
+  //   () => {
+  //     console.log('computed new value')
+  //     return { selectedScheme, setSelectedScheme }
+  //   }, [selectedScheme]
+  // )
   //  const value = { searchStr, setSearchStr }
   //  const schemeValue = { selectedScheme, setSelectedScheme }
+
   return (
     <div className="App">
-      <SearchContext.Provider value={searchStore}>
-        <SelectedSchemeContext.Provider value={selectedSchemeStore}>
+      <SelectedSchemeProvider>
+        <SearchContextProvider>
+
           <header className="App-header">
             <div className='auto-margin'>
               <SearchComponent />
               <SearchItemList />
             </div>
           </header>
-        </SelectedSchemeContext.Provider>
-      </SearchContext.Provider>
-      <SelectedSchemeContext.Provider value={selectedSchemeStore}>
+
+        </SearchContextProvider>
+
         <SchemeOverviewWrapper />
-      </SelectedSchemeContext.Provider>
+      </SelectedSchemeProvider>
       <TestComponentWrapper>
         <TestComponent />
       </TestComponentWrapper>
