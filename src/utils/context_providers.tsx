@@ -1,6 +1,6 @@
 import React from "react";
 import { useMemo, useReducer } from "react";
-import { LoadingProps, SearchContext } from "../App";
+import { LoadingProps } from "../App";
 import { SearchState } from "../models/StoreTypes";
 
 export const SearchContextImproved = React.createContext({
