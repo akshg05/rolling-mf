@@ -13,56 +13,7 @@ export type LoadingProps = {
   children: React.ReactNode
 }
 
-export const SearchContext = React.createContext({
-  searchStr: {} as SearchState,
-  setSearchStr: (_value: string) => { }
-})
-
-// export const SelectedSchemeContext = React.createContext({
-//   selectedScheme: {} as SearchResponse,
-//   setSelectedScheme: (_value: SearchResponse) => { }
-// })
-
-const searchState = {
-  searchString: ''
-}
-function searchStringReducer(searchState: SearchState, action: string) {
-  let state = {} as SearchState
-  state.searchString = action
-  return state
-}
-
-const TestContext = React.createContext(0)
-
-function TestComponent() {
-  return (
-    <div>ABX</div>
-  )
-}
-
-const TestComponentWrapper = (props: LoadingProps) => {
-  return (
-    <TestContext.Provider value={1}>
-      {props.children}
-    </TestContext.Provider>
-  )
-}
-
 function App() {
-
-  const [searchStr, setSearchStr] = useReducer(searchStringReducer, {} as SearchState)
-  const [selectedScheme, setSelectedScheme] = useState({} as SearchResponse)
-  // const searchStore = useMemo(
-  //   () => ({ searchStr, setSearchStr }), [searchStr]
-  // )
-  // const selectedSchemeStore = useMemo(
-  //   () => {
-  //     console.log('computed new value')
-  //     return { selectedScheme, setSelectedScheme }
-  //   }, [selectedScheme]
-  // )
-  //  const value = { searchStr, setSearchStr }
-  //  const schemeValue = { selectedScheme, setSelectedScheme }
 
   return (
     <div className="App">
@@ -75,16 +26,9 @@ function App() {
               <SearchItemList />
             </div>
           </header>
-
-        </SearchContextProvider>
-
-        <SchemeOverviewWrapper />
+          <SchemeOverviewWrapper />
+        </SearchContextProvider>    
       </SelectedSchemeProvider>
-      <TestComponentWrapper>
-        <TestComponent />
-      </TestComponentWrapper>
-
-
     </div>
   );
 }
