@@ -4,7 +4,7 @@ import mfApi from "../api/mfApi";
 import { Datum, MFResponse, SchemeMeta } from "../models/SchemeDataResponse";
 
 import { SearchResponse } from "../models/SearchResponse";
-import { SelectedSchemeContext } from "../utils/selectedSchemeProvider";
+import { SelectedSchemeContext } from "../providers/selectedSchemeProvider";
 
 const api = mfApi
 
@@ -32,14 +32,16 @@ function NavItem(props: { navData: Datum, prevNav: Datum }) {
     }
     function computeColor(value: number) { return value > 0 ? 'green' : 'red' }
     return (
-        <div className='flex-row'>
+        <div className='flex-column'>
             <div>{props.navData.date}</div>
-            <div style={{ width: '20px' }}></div>
-            <div>{computeFixed(props.navData.nav)}</div>
-            <div style={{ width: '20px' }}></div>
-            {props.prevNav ? <div style={{ width: '80px', textAlign: 'right', color: computeColor(changeP) }}>
-                {changeP.toFixed(2)}%
-            </div> : null}
+            <div className='flex-row'>
+                <div style={{ width: '20px' }}></div>
+                <div>{computeFixed(props.navData.nav)}</div>
+                <div style={{ width: '20px' }}></div>
+                {props.prevNav ? <div style={{ width: '80px', textAlign: 'right', color: computeColor(changeP) }}>
+                    {changeP.toFixed(2)}%
+                </div> : null}
+            </div>
         </div>
     )
 }

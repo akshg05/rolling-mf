@@ -6,8 +6,8 @@ import { SearchResponse } from './models/SearchResponse';
 import { SchemeOverview, SchemeOverviewWrapper } from './components/schemeOverviewComponent';
 import { SearchState } from './models/StoreTypes';
 import { render } from '@testing-library/react';
-import { SearchContextImproved, SearchContextProvider } from './utils/context_providers';
-import SelectedSchemeProvider from './utils/selectedSchemeProvider';
+import { SearchContextImproved, SearchContextProvider } from './providers/context_providers';
+import SelectedSchemeProvider from './providers/selectedSchemeProvider';
 
 export type LoadingProps = {
   children: React.ReactNode

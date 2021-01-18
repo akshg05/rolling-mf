@@ -2,9 +2,9 @@ import { CSSProperties, useContext, useEffect, useRef, useState } from "react";
 
 import API from '../api/mfApi'
 import { SearchResponse } from "../models/SearchResponse";
-import { SearchContextImproved } from "../utils/context_providers";
+import { SearchContextImproved } from "../providers/context_providers";
 import { useOutsideAlerter } from "../utils/custom_hooks";
-import { SelectedSchemeContext } from "../utils/selectedSchemeProvider";
+import { SelectedSchemeContext } from "../providers/selectedSchemeProvider";
 
 const api = API
 
