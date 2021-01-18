@@ -11,8 +11,8 @@ const api = mfApi
 function SchemeMetaInfo(props: { meta: SchemeMeta }) {
     return (
         <div>
-            <div>{props.meta.scheme_category}</div>
-            <div>{props.meta.fund_house}</div>
+            <div style={{color:'gray'}}>{props.meta.scheme_category}</div>
+            {/* <div>{props.meta.fund_house}</div> */}
         </div>
     )
 }
@@ -68,9 +68,9 @@ export function SchemeOverview(props: {
 
     return (
 
-        <div className='flex-box flex-column' style={{ alignItems: 'start' }}>
-            <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{props.schemeItem.schemeName}</div>
+        <div className='flex-box flex-column' style={{ alignItems: 'start', textAlign:'start' }}>
             {schemeData ? <SchemeMetaInfo meta={schemeData.meta} /> : null}
+            <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{props.schemeItem.schemeName}</div>
             {schemeData ? <ul>{getListItems()}</ul> : null}
         </div>
     )
