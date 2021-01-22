@@ -12,7 +12,7 @@ const api = mfApi
 function SchemeMetaInfo(props: { meta: SchemeMeta }) {
     return (
         <div>
-            <div style={{color:'gray'}}>{props.meta.scheme_category}</div>
+            <div style={{ color: 'gray', padding: '0px 8px' }}>{props.meta.scheme_category}</div>
             {/* <div>{props.meta.fund_house}</div> */}
         </div>
     )
@@ -21,9 +21,9 @@ function SchemeMetaInfo(props: { meta: SchemeMeta }) {
 function NavItem(props: { navData: Datum, prevNav: Datum }) {
 
     let changeP: number = 0
-    if(props.prevNav != null)
-     changeP = computeDiffPercent()
-     
+    if (props.prevNav != null)
+        changeP = computeDiffPercent()
+
     function computeDiffPercent() {
         return ((parseFloat(props.navData.nav) - parseFloat(props.prevNav.nav)) / parseFloat(props.navData.nav) * 100)
     }
@@ -33,10 +33,10 @@ function NavItem(props: { navData: Datum, prevNav: Datum }) {
     }
     function computeColor(value: number) { return value > 0 ? 'green' : 'red' }
     return (
-        <div className='flex-column font-small' style={{alignItems:'start'}}>
+        <div className='flex-column font-small' style={{ alignItems: 'start', borderBottom:'1px solid grey'}}>
             <div>{Utility.parseSchemeDate(props.navData.date)}</div>
             <div className='flex-row font-medium'>
-                <div style={{ width: '20px' }}></div>
+                
                 <div>₹{computeFixed(props.navData.nav)}</div>
                 <div style={{ width: '20px' }}></div>
                 {props.prevNav ? <div style={{ width: '80px', textAlign: 'right', color: computeColor(changeP) }}>
@@ -71,10 +71,10 @@ export function SchemeOverview(props: {
 
     return (
 
-        <div className='flex-box flex-column' style={{ alignItems: 'start', textAlign:'start' }}>
+        <div className='flex-box flex-column' style={{ alignItems: 'start', textAlign: 'start' }}>
             {schemeData ? <SchemeMetaInfo meta={schemeData.meta} /> : null}
-            <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{props.schemeItem.schemeName}</div>
-            {schemeData ? <ul style={{paddingLeft:'5px'}}>{getListItems()}</ul> : null}
+            <div style={{ fontWeight: 'bold', fontSize: '16px', margin:'0px 8px' }}>{props.schemeItem.schemeName}</div>
+            {schemeData ? <ul style={{ paddingLeft: '5px' }}>{getListItems()}</ul> : null}
         </div>
     )
 
