@@ -5,6 +5,7 @@ import { Datum, MFResponse, SchemeMeta } from "../models/SchemeDataResponse";
 
 import { SearchResponse } from "../models/SearchResponse";
 import { SelectedSchemeContext } from "../providers/selectedSchemeProvider";
+import Utility from "../utils/utility";
 
 const api = mfApi
 
@@ -32,11 +33,11 @@ function NavItem(props: { navData: Datum, prevNav: Datum }) {
     }
     function computeColor(value: number) { return value > 0 ? 'green' : 'red' }
     return (
-        <div className='flex-column'>
-            <div>{props.navData.date}</div>
-            <div className='flex-row'>
+        <div className='flex-column font-small' style={{alignItems:'start'}}>
+            <div>{Utility.parseSchemeDate(props.navData.date)}</div>
+            <div className='flex-row font-medium'>
                 <div style={{ width: '20px' }}></div>
-                <div>{computeFixed(props.navData.nav)}</div>
+                <div>₹{computeFixed(props.navData.nav)}</div>
                 <div style={{ width: '20px' }}></div>
                 {props.prevNav ? <div style={{ width: '80px', textAlign: 'right', color: computeColor(changeP) }}>
                     {changeP.toFixed(2)}%
@@ -73,7 +74,7 @@ export function SchemeOverview(props: {
         <div className='flex-box flex-column' style={{ alignItems: 'start', textAlign:'start' }}>
             {schemeData ? <SchemeMetaInfo meta={schemeData.meta} /> : null}
             <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{props.schemeItem.schemeName}</div>
-            {schemeData ? <ul>{getListItems()}</ul> : null}
+            {schemeData ? <ul style={{paddingLeft:'5px'}}>{getListItems()}</ul> : null}
         </div>
     )
 

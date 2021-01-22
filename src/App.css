@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   height: 500px;
+  font-family: DM_Sans;
 }
 
 .App-logo {
@@ -72,6 +73,14 @@
   padding-top: 0;
   text-align:center;
   list-style-type:none;
+}
+
+.font-medium{
+  font-size: 14px;
+}
+
+.font-small{
+  font-size: 12px;
 }
 
 @keyframes App-logo-spin {
