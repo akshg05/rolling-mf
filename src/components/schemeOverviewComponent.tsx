@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import mfApi from "../api/mfApi";
 
-import { Datum, MFResponse, SchemeMeta } from "../models/SchemeDataResponse";
+import { NavDatum, MFResponse, SchemeMeta } from "../models/SchemeDataResponse";
 
 import { SearchResponse } from "../models/SearchResponse";
 import { SelectedSchemeContext } from "../providers/selectedSchemeProvider";
 import Utility from "../utils/utility";
+import NavChart from "./navChart";
 
 const api = mfApi
 
@@ -18,7 +19,7 @@ function SchemeMetaInfo(props: { meta: SchemeMeta }) {
     )
 }
 
-function NavItem(props: { navData: Datum, prevNav: Datum }) {
+function NavItem(props: { navData: NavDatum, prevNav: NavDatum }) {
 
     let changeP: number = 0
     if (props.prevNav != null)
@@ -33,18 +34,31 @@ function NavItem(props: { navData: Datum, prevNav: Datum }) {
     }
     function computeColor(value: number) { return value > 0 ? 'green' : 'red' }
     return (
-        <div className='flex-column font-small' style={{ alignItems: 'start', borderBottom:'1px solid grey'}}>
-            <div>{Utility.parseSchemeDate(props.navData.date)}</div>
-            <div className='flex-row font-medium'>
-                
+        <div className='flex-column font-small' style={{
+            alignItems: 'flex-end',
+            borderBottom: '1px solid grey',
+        }}>
+            <div >{Utility.parseSchemeDate(props.navData.date)}</div>
+            <div className='flex-row font-medium' style={{width:'100%'}}>
+
                 <div>₹{computeFixed(props.navData.nav)}</div>
-                <div style={{ width: '20px' }}></div>
+                <div style={{ flexGrow: 1 }}></div>
                 {props.prevNav ? <div style={{ width: '80px', textAlign: 'right', color: computeColor(changeP) }}>
                     {changeP.toFixed(2)}%
                 </div> : null}
             </div>
         </div>
     )
+}
+
+function NavList(props: { navList: JSX.Element[] | undefined }) {
+    return (<div style={{
+        height: window.innerHeight,
+        width: window.innerWidth,
+        overflowY: 'scroll'
+    }}>
+        <ul style={{ padding: '0px 5px' }}>{props.navList}</ul>
+    </div>)
 }
 
 export function SchemeOverview(props: {
@@ -73,8 +87,14 @@ export function SchemeOverview(props: {
 
         <div className='flex-box flex-column' style={{ alignItems: 'start', textAlign: 'start' }}>
             {schemeData ? <SchemeMetaInfo meta={schemeData.meta} /> : null}
-            <div style={{ fontWeight: 'bold', fontSize: '16px', margin:'0px 8px' }}>{props.schemeItem.schemeName}</div>
-            {schemeData ? <ul style={{ paddingLeft: '5px' }}>{getListItems()}</ul> : null}
+            <div style={{ fontWeight: 'bold', fontSize: '16px', margin: '0px 8px' }}>{props.schemeItem.schemeName}</div>
+            
+            {schemeData ?
+                <div>
+                    <NavChart navData={schemeData?.data!}/>
+                    <NavList navList={getListItems()} />
+                </div>
+                : null}
         </div>
     )
 

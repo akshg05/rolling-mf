@@ -1,10 +1,10 @@
 export interface MFResponse {
     meta:   SchemeMeta;
-    data:   Datum[];
+    data:   NavDatum[];
     status: string;
 }
 
-export interface Datum {
+export interface NavDatum {
     date: string;
     nav:  string;
 }
