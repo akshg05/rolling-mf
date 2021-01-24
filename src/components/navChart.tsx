@@ -49,8 +49,8 @@ export default function NavChart(props: { navData: NavDatum[] }) {
     }
 
     function changeTimePeriod(tickCount:number){
-        data.current.labels = props.navData.slice(tickCount).reverse().map((item) => item.date)
-        data.current.datasets[0].data = props.navData.slice(tickCount).reverse().map((item) => item.nav)
+        data.current.labels = props.navData.slice(0).reverse().slice(tickCount).map((item) => item.date)
+        data.current.datasets[0].data = props.navData.slice(0).reverse().slice(tickCount).map((item) => item.nav)
 
     }
 

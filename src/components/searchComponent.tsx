@@ -5,6 +5,7 @@ import { SearchResponse } from "../models/SearchResponse";
 import { SearchContextImproved } from "../providers/context_providers";
 import { useOutsideAlerter } from "../utils/custom_hooks";
 import { SelectedSchemeContext } from "../providers/selectedSchemeProvider";
+import db from "../services/dbService";
 
 const api = API
 
@@ -23,7 +24,7 @@ function SearchItem(props: {
     }
 
     const [hovered, setHovered] = useState(false)
-    const {selectedScheme, setSelectedScheme} = useContext(SelectedSchemeContext)
+    const { selectedScheme, setSelectedScheme } = useContext(SelectedSchemeContext)
 
     const getBackground = () => hovered ? 'white' : 'wheat'
 
@@ -34,12 +35,20 @@ function SearchItem(props: {
         backgroundColor: getBackground()
     }
 
+    function selectItem() {
+        setSelectedScheme(props.searchResponse)
+        props.setShowResults(false)
+
+        //Insert into searched items in db
+        db.recentSearches.put(props.searchResponse, props.searchResponse.schemeCode)
+    }
+
     return (
 
         <div className='flex-box flex-column'
             style={itemHolderStyle} onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            onClick={()=> {setSelectedScheme(props.searchResponse); props.setShowResults(false)}}>
+            onClick={selectItem}>
             <div style={itemStyle}>
                 {props.searchResponse.schemeName}
             </div>
@@ -53,9 +62,12 @@ function SearchItem(props: {
 export function SearchItemList() {
     const [schemeList, setSchemeList] = useState<SearchResponse[]>([])
     const [showResults, setShowResults] = useState(true)
+    const [recentSearchList, setRecentSearchList] = useState<SearchResponse[]>([])
     const { searchStr, setSearchStr } = useContext(SearchContextImproved)
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef, setShowResults, !showResults);
+
+
 
     useEffect(() => {
         setShowResults(true)
@@ -63,17 +75,29 @@ export function SearchItemList() {
             if (response.status == 200)
                 setSchemeList(response.data)
         })
+        db.recentSearches.toArray().then((response) => {
+            setRecentSearchList(response)
+        })
     }, [searchStr])
 
 
 
     const listItems = schemeList.map((item) => <SearchItem searchResponse={item}
-        setShowResults = {setShowResults}
+        setShowResults={setShowResults}
         key={item.schemeCode} />)
+
+    const recentListItems = recentSearchList.map((item) => <SearchItem searchResponse={item}
+        setShowResults={setShowResults}
+        key={item.schemeCode} />)
+
 
     if (listItems.length > 0 && showResults)
         return (<div ref={wrapperRef} className="drop-list">
             <ul className='searchlist'>{listItems}</ul>
+            <div>
+                <div>Recent Searches</div>
+                <ul className='searchlist'>{recentListItems}</ul>
+            </div>
         </div>)
     else
         return <div></div>
