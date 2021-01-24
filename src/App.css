@@ -61,6 +61,8 @@
   overflow-y: scroll;
   overflow-x: visible;
   background-color: wheat;
+  z-index: 5;
+  position: relative;
   
 }
 
